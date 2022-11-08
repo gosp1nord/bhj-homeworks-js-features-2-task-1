@@ -16,16 +16,16 @@ function removeTask(event) {
 function addTask(event) {
     event.preventDefault();
     const textInput = document.getElementById('task__input');
-    const blockTask = document.createElement('div');
-    blockTask.setAttribute('class', 'task');
-    const taskTitle = document.createElement('div');
-    taskTitle.setAttribute('class', 'task__title');
-    taskTitle.innerText = textInput.value;
-    blockTask.appendChild(taskTitle);
-    taskTitle.insertAdjacentHTML('afterend', '<a href="#" class="task__remove">&times;</a>');
-
-    const listTasks = document.querySelector('.tasks__list');
-    listTasks.appendChild(blockTask);
+    const text = textInput.value.trim();
     textInput.value = '';
+    if (text) {
+        const listTasks = document.querySelector('.tasks__list');
+        listTasks.insertAdjacentHTML('afterbegin', `
+            <div class="task">
+                <div class="task__title">${text}</div>
+                <a href="#" class="task__remove">&times;</a>
+            </div>
+        `);
+    }
 }
 
