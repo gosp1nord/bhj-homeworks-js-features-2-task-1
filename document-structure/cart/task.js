@@ -13,37 +13,27 @@ btnAdd.forEach((item) => {
 
 function addBasket() {
     const blockBasket = document.querySelector('.cart__products');
-    const productsBasket = blockBasket.querySelectorAll('.cart__product');
+    const productsBasket = Array.from(blockBasket.querySelectorAll('.cart__product'));
 
     const parentElem = this.closest('.product');
     const idElem = parentElem.dataset.id;
     const imgElem = parentElem.querySelector('.product__image').getAttribute('src');
     const quantityElem = parentElem.querySelector('.product__quantity-value').innerText;
 
-    let flagAdd = true
-    productsBasket.forEach((item) => {
-        if (item.dataset.id === idElem) {
-            let elemValue = Number(item.querySelector('.cart__product-count').innerText);
-            item.querySelector('.cart__product-count').innerText = elemValue + Number(quantityElem);
-            flagAdd = false
-        }
-    })
-
-    if (flagAdd) {
-        const block = document.createElement('div');
-        block.setAttribute('class', 'cart__product');
-        block.setAttribute('data-id', idElem);
-        const addImg = document.createElement('img');
-        addImg.setAttribute('class', 'cart__product-image');
-        addImg.setAttribute('src', imgElem);
-        block.appendChild(addImg);
-        const addQuantity = document.createElement('div');
-        addQuantity.setAttribute('class', 'cart__product-count');
-        addQuantity.innerText = quantityElem;
-        block.appendChild(addQuantity);
-        blockBasket.appendChild(block);
+    let elemInBasket = productsBasket.find(item => item.dataset.id === idElem);
+    if (elemInBasket) {
+        let elemValue = Number(elemInBasket.querySelector('.cart__product-count').innerText);
+        elemInBasket.querySelector('.cart__product-count').innerText = elemValue + Number(quantityElem);
+    } else {
+        blockBasket.insertAdjacentHTML('beforeend', `
+            <div class="cart__product" data-id="${idElem}">
+                <img class="cart__product-image" src="${imgElem}">
+                <div class="cart__product-count">${quantityElem}</div>
+            </div>
+        `)
     }
 }
+
 
 
 function setQuantity() {
