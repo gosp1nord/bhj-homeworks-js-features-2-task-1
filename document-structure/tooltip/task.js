@@ -18,7 +18,7 @@ function addTooltip(event) {
     linkA.forEach((item) => {
         if (item === this) {
             let nextBlock = item.nextElementSibling
-            nextBlock.classList.add('tooltip_active');
+            nextBlock.classList.toggle('tooltip_active');
             nextBlock.style.left = item.offsetLeft + 'px';
         } else {
             item.nextElementSibling.classList.remove('tooltip_active');
